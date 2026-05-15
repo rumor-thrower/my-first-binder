@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+# Start postgres
+echo "Starting postgres"
+sudo service postgresql start
+
+# Start Jupyter
+exec "$@"
