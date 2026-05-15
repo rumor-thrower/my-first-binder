@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+    <div style="text-align:right;">
+        <form action="/users/{{myid}}" method="post">
+            <b>ID:</b> <button type="submit" name="mypage" style="background-color: #FF9A98;">{{myid}}</button>
+        </form>
+        <form action="/movies" method="post">
+            <button type="submit" name="send">Main Page</button>
+        </form>
+    </div>
+    <h1 style="margin-top:0;">{{title}}</h1>
+    <table border = "1">
+        <thead>
+            <th>director</th>
+            <th>genre</th>
+            <th>release date</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ director }}</td>
+                <td>{{ genre }}</td>
+                <td>{{ rel_date }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr style="margin-top: 30px;">
+    <h3 style="margin-bottom: 10px;">[Reviews]</h3>
+    <div style="margin: 0px 0px 5px 2px"><b>Average Rating:</b> {{avg_ratings}} </div>
+    <table border = "1">
+        <thead>
+            <th>ratings</th>
+            <th>user</th>
+            <th>review</th>
+            <th>time</th>
+        </thead>
+        <tbody>
+            {% for review in reviews%}
+            <tr>
+                <td style="text-align: center;">{{ review[2] }}</td>
+                <td>
+                    <form action="/users/{{review[1]}}" method="post">
+                        <button type="submit" name="uid" style="width: 100%; background-color: #FF9A98;">{{review[1]}}</button>
+                    </form>
+                </td>
+                <td>{{ review[3] }}</td>
+                <td>{{ review[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <div>
+        <form action="/movies/{{title}}/submit" method="post">
+            <input type="hidden" name="mid" value="{{ mid }}">
+            <label for="review"><b>My Review:</b></label>
+            <select name="ratings">
+                <option value="5" selected>5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            </select>
+            <br>
+            <textarea id="review" name="review" value="" style="margin-top: 5px; width: 500px;"></textarea><br>
+            <input type="submit" name="submit" value="submit">
+        </form>
+    </div>
+
+</body>
+</html>
