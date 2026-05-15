@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{uid}}</title>
+</head>
+<body>
+    <div style="text-align:right;">
+        <form action="/users/{{myid}}" method="post">
+            <b>ID:</b> <button type="submit" name="mypage" style="background-color: #FF9A98;">{{myid}}</button>
+        </form>
+        <form action="/movies" method="get">
+            <button type="submit" name="send">Main Page</button>
+        </form>
+    </div>
+    <h1 style="margin-top:0; margin-bottom: 5px">{{uid}}</h1>
+    {% if myid != uid %}
+    <form action="/users/{{uid}}/follow_mute" method="post">
+        <input type="submit" name="send" value="follow">
+        <input type="submit" name="send" value="mute">
+    </form>
+    {% endif %}
+
+    <h3 style="margin-bottom: 5px;">[Reviews]</h3>
+    <table border = "1">
+        <thead>
+            <th>ratings</th>
+            <th>movies</th>
+            <th>review</th>
+            <th>time</th>
+        </thead>
+        <tbody>
+            {% for review in reviews%}
+            <tr>
+                <td style="text-align: center;">{{ review[2] }}</td>
+                <td>
+                    <form action="/movies/{{review[1]}}" method="post">
+                        <button type="submit" name="mid" value="{{review[0]}}" style="width: 100%; background-color: #90EE90;">{{review[1]}}</button>
+                    </form>
+                </td>
+                <td>{{ review[3] }}</td>
+                <td>{{ review[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr style="margin-top: 30px;">
+    <h3 style="margin-bottom: 5px;">[Followers]</h3>
+    {% for follower in followers %}
+        <form action="/users/{{follower[0]}}" method="post">
+            <button type="submit" name="uid" style="background-color: #FF9A98;">{{follower[0]}}</button>
+        </form>
+    {% endfor %}
+    <hr style="margin-top: 30px;">
+    {% if myid == uid %}
+        <h3 style="margin-bottom: 5px;">[Following]</h3>
+        <table border="1">
+            <thead>
+                <th>user</th>
+                <th>unfollow</th>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for user in following %}
+                    <td>
+                        <form action="/users/{{user[0]}}" method="post">
+                            <button type="submit" name="uid" style="background-color: #FF9A98;">{{user[0]}}</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/users/{{user[0]}}/untie" method="post">
+                            <button type="submit" name="untie">unfollow</button>
+                        </form>
+                    </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-bottom: 5px;">[Muted]</h3>
+        <table border="1">
+            <thead>
+                <th>user</th>
+                <th>unmute</th>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for user in muted %}
+                    <td>
+                        <form action="/users/{{user[0]}}" method="post">
+                            <button type="submit" name="uid" style="background-color: #FF9A98;">{{user[0]}}</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/users/{{user[0]}}/untie" method="post">
+                            <button type="submit" name="untie">unmute</button>
+                        </form>
+                    </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+
+    <hr style="margin-top: 30px;">
+    {% if myid == uid and is_admin == True %}
+    <h3 style="margin-bottom: 5px;">[Add Movie]</h3>
+    <form action="/users/{{myid}}/update_movies" method="post">
+        <label for="movie_title">Title:</label><br>
+        <input id="movie_title" type="text" name="title" value=""><br>
+        <label for="director">Director:</label><br>
+        <input id="director" type="text" name="director" value=""><br>
+        <label for="genre">Genre:</label><br>
+        <select id="genre" name="genre">
+                <option value="action" selected>action</option>
+                <option value="comedy">comedy</option>
+                <option value="drama">drama</option>
+                <option value="fantasy">fantasy</option>
+                <option value="horror">horror</option>
+                <option value="mystery">mystery</option>
+                <option value="romance">romance</option>
+                <option value="thriller">thriller</option>
+                <option value="western">western</option>
+        </select><br>
+        <label for="rel_date">Release Date:</label><br>
+        <input id="rel_date" type="date" name="rel_date" value=""><br>
+        <input type="submit" name="send" value="Add">
+    </form>
+    {% endif %}
+
+</body>
+</html>
