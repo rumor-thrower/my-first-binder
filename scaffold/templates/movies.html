@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>main</title>
+</head>
+<body>
+    <div style="text-align:right;">
+        <form action="/users/{{myid}}" method="post">
+            <b>ID:</b> <button type="submit" name="mypage" style="background-color: #FF9A98;">{{myid}}</button>
+        </form>
+    </div>
+
+<!--  Movies  -->
+    <h1 style="margin-top:0;">Movies</h1>
+    <form action="/movies/listing" method="post">
+        <input type="submit" name="movieOpt" value="latest">
+        <input type="submit" name="movieOpt" value="genre">
+        <input type="submit" name="movieOpt" value="ratings">
+    </form>
+    <table border = "1">
+        <thead>
+            <th>title</th>
+            <th>ratings</th>
+            <th>director</th>
+            <th>genre</th>
+            <th>release date</th>
+        </thead>
+
+        <tbody>
+            {% for movie in movies%}
+            <tr>
+                <td>
+                    <form action="/movies/{{movie[1]}}" method="post">
+                        <button type="submit" name="mid" value="{{movie[0]}}" style="width: 100%; background-color: #90EE90;">{{movie[1]}}</button>
+                    </form>
+                </td>
+                <td style="text-align: center;">{{ movie[2] }}</td>
+                <td>{{ movie[3] }}</td>
+                <td>{{ movie[4] }}</td>
+                <td>{{ movie[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!--  Reviews  -->
+    <hr style="margin-top:30px; margin-bottom: 30px;">
+    <h1 style="margin-top:0;">Reviews</h1>
+    <form action="/movies/listing" method="post">
+        <input type="submit" name="reviewOpt" value="latest">
+        <input type="submit" name="reviewOpt" value="title">
+        <input type="submit" name="reviewOpt" value="ratings">
+    </form>
+    <table border = "1">
+        <thead>
+            <th>ratings</th>
+            <th>user</th>
+            <th>title</th>
+            <th>review</th>
+            <th>time</th>
+        </thead>
+        <tbody>
+            {% for review in reviews%}
+            <tr>
+                <td style="text-align: center;">{{ review[3] }}</td>
+                <td>
+                    <form action="/users/{{review[1]}}" method="post">
+                        <button type="submit" name="uid" style="width: 100%; background-color: #FF9A98;">{{review[1]}}</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/movies/{{review[2]}}" method="post">
+                        <button type="submit" name="mid" value="{{review[0]}}" style="width: 100%; background-color: #90EE90;">{{review[2]}}</button>
+                    </form>
+                </td>
+                <td>{{ review[4] }}</td>
+                <td>{{ review[5] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
